@@ -3,7 +3,8 @@ resource "aws_iam_role" "name" {
     assume_role_policy = var.role_policy
 
     tags = {
-        Name = var.tag
+        project = var.project
+        env = var.env
     }
   
 }

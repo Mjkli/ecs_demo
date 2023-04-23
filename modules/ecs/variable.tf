@@ -1,0 +1,12 @@
+variable "ecs_name" {}
+variable "ecs_task_name" {}
+variable "ecs_execution_role" {}
+variable "container_image" {}
+variable "entrypoint" {}
+variable "workingDir" {}
+variable "port" {}
+variable "ecs_service_name" {}
+variable "task_count" {}
+variable "security_group" {}
+variable "subnets" {}
+variable "lb_target_group" {}
