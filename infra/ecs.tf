@@ -2,14 +2,14 @@ module "ecs" {
     source = "../modules/ecs"
     ecs_name = var.ecs_name
     ecs_task_name = var.ecs_name + "-task"
-    ecs_execution_role = 
-    container_image = var.image
+    ecs_execution_role = module.ecs_role.id
+    container_image = module.flask_app.url
     entrypoint = var.entrypoint
     workingDir = var.workingdir
     port = var.port
     ecs_service_name = var.ecs_name + "-service"
-    task_count = ""
-    security_group = 
+    task_count = var.task_count
+    security_group = module.ecs_sg.id
     subnets = [module.public-subnet-1.id]
     lb_target_group = 
   
@@ -21,4 +21,13 @@ module "ecs_role" {
     role_policy = var.role_policy
     project = var.project
     env = var.env
+}
+
+module "ecs_sg" {
+    source = "../modules/network/security_groups"
+    role_name = "ecs_role"
+    assume_role_policy = jsonencode()
+    project = var.project
+    env = var.env
+  
 }
