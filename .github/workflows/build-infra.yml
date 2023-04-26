@@ -62,8 +62,4 @@ jobs:
       
       - name: Get LoadBalancer Url
         run: terraform output loadbalancer_url
-
-
-      
-
-
+        working-directory: infra   
