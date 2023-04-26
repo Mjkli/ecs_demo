@@ -31,7 +31,7 @@ module "ecs_lb" {
     source = "../modules/network/loadbalancer"
 
     lb_name = var.lb_name
-    public = true
+    private = false
     type = "application"
     port = var.port
     protocol = var.protocol
