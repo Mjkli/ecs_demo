@@ -59,6 +59,9 @@ jobs:
       - name: Terrafrom Apply - Build rest of Infrastructure
         run: terraform apply -auto-approve -input=false -var "db_username=${{ secrets.DB_USERNAME }}" -var "db_password=${{ secrets.DB_PASSWORD }}"
         working-directory: infra
+      
+      - name: Get LoadBalancer Url
+        run: terraform output loadbalancer_url
 
 
       
