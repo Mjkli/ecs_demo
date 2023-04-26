@@ -1,6 +1,6 @@
 resource "aws_lb" "loadbalancer" {
     name = var.lb_name
-    internal = var.public
+    internal = var.internal
     load_balancer_type = var.type
     security_groups = var.security_groups
     subnets = var.subnets

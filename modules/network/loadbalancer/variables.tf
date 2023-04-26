@@ -1,5 +1,5 @@
 variable "lb_name" {}
-variable "public" {}
+variable "internal" {}
 variable "type" {}
 variable "security_groups" {}
 variable "subnets" {}
