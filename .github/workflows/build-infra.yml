@@ -1,7 +1,7 @@
 name: Build Infrastructure
 on: ["push"]
 jobs:
-  build:
+  check:
     name: Check and deploy terraform
     runs-on: ubuntu-latest
     container: mjkli/iac-terraform:latest  # This is just an alpine image with terraform and aws cli on it - built in IAC_full project
@@ -35,6 +35,16 @@ jobs:
         run: terraform apply -auto-approve -input=false -var "db_username=${{ secrets.DB_USERNAME }}" -var "db_password=${{ secrets.DB_PASSWORD }}" --target module.flask_app
         working-directory: infra
 
+  push_image:
+    name: Check and deploy terraform
+    runs-on: ubuntu-latest
+    container: mjkli/iac-terraform:latest  # This is just an alpine image with terraform and aws cli on it - built in IAC_full project
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: "us-west-1"
+    steps:
+    
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -55,6 +65,16 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f docker/Dockerfile .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          
+  build:
+    name: Check and deploy terraform
+    runs-on: ubuntu-latest
+    container: mjkli/iac-terraform:latest  # This is just an alpine image with terraform and aws cli on it - built in IAC_full project
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: "us-west-1"
+    steps:
       
       - name: Terrafrom Apply - Build rest of Infrastructure
         run: terraform apply -auto-approve -input=false -var "db_username=${{ secrets.DB_USERNAME }}" -var "db_password=${{ secrets.DB_PASSWORD }}"
