@@ -47,12 +47,13 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
       
       - name: build, tag, push image
+        working-directory: flask_app
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: flask_app
           IMAGE_TAG: latest
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG flask_app/docker
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f docker/Dockerfile .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
       
       - name: Terrafrom Apply - Build rest of Infrastructure
