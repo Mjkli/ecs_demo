@@ -44,7 +44,7 @@ resource "aws_ecs_service" "ecs_service" {
   force_new_deployment = true
 
   network_configuration {
-    security_groups = var.security_group
+    security_groups = [var.security_group]
     subnets = var.subnets
     assign_public_ip = true
   }

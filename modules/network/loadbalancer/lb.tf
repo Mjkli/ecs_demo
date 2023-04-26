@@ -8,8 +8,9 @@ resource "aws_lb" "loadbalancer" {
 }
 
 resource "aws_lb_target_group" "lb_target_group" {
-    name = aws_lb.loadbalancer.name + "-tg"
+    name = "${aws_lb.loadbalancer.name}-tg"
     port = var.port
+    target_type = "ip"
     protocol = var.protocol
     vpc_id = var.vpc_id
 }

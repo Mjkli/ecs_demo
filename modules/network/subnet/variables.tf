@@ -3,3 +3,4 @@ variable "subnet_cidr" {}
 variable "project" {}
 variable "env" {}
 variable "rt_id" {}
+variable "availability_zone" {}
